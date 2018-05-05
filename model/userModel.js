@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     email: { required: true, type: String },
     password: {required:true, type:String},
     emailVerified: {default:false, type:Boolean},
-    accountStatus:{default:"unverified", type:String},
+    accountStatus:{default:"new", type:String},
     token: {type:String}
 })
 
