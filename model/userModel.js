@@ -22,7 +22,7 @@ const UserSchema = new Schema({
         default: false, type: Boolean
     },
     emailToken: {
-        ype: String
+        type: String
     }
 }, {timestamps:true})
 
