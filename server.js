@@ -1,12 +1,12 @@
 const express = require ("express");
 const bodyParser = require ("body-parser");
 const mongoose = require ("mongoose")
-const unknownRouter = require ("./routes/unknown")
+const userRoute = require ("./routes/userRoute")
 
 const app = express()
 const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json())
-app.use("/unknown", unknownRouter);
+app.use("/userRoute", userRoute);
 
 mongoose.connect("mongodb://localhost:27017/bdgsa", (err) => { 
 if(err) console.error(err);
