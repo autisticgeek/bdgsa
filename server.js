@@ -25,4 +25,4 @@ if(err) console.error(err);
 console.log("connected to MongoDB")
 })
 
-app.listen(port, () => console.log(`Server is Running on port ${port}`))
+app.listen(PORT, () => console.log(`Server is Running on PORT ${PORT}`))
