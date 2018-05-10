@@ -1,6 +1,7 @@
 const express = require ("express");
 const bodyParser = require ("body-parser");
 const mongoose = require ("mongoose")
+const expressJwt = require ("express-jwt")
 const path = require ("path")
 const morgan = require ("morgan")
 const userRoute = require ("./routes/userRoute")
