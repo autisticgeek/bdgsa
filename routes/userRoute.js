@@ -1,25 +1,26 @@
-const express = require('express');
-const userRoute = express.Router()
-const UserModel = require("../model/userModel")
+const express = require("express");
+const usersRouter = express.Router();
+const UserModel = require("../model/userModel.js");
 
-userRoute.route("/")
+
+usersRouter.route("/")
     .get((req, res) => {
         UserModel.find(req.query)
-            .exec((err, foundUser) => {
-                if (err) {
-                    res.status(400).send(err)
-                } else if (foundUser) {
-                    res.status(200).send(foundUser)
-                } else {
-                    res.status(404).send("User Not found")
-                }
+            .exec((err, foundUsers) => {
+                if (err) return res.status(400).res.send(err)
+                res.status(200).send(foundUsers);
             })
     })
+
     .post((req, res) => {
-        const newData = new UserModel(req.body)
-        newData.save((err, addedData) => err ? res.status(400).send(err) : res.status(201).send(addedData))
+        const newUser = new UserModel(req.body);
+        newUser.save((err, savedUser) => {
+            if (err) return res.send(err);
+            res.status(200).send(savedUser);
+        })
     })
-userRoute.route("/:id")
+
+usersRouter.route("/:id")
     .get((req, res) => {
         UserModel.findOne({ _id: req.params.id })
             .exec((err, foundUser) => {
@@ -28,33 +29,38 @@ userRoute.route("/:id")
                 } else if (foundUser) {
                     res.status(200).send(foundUser)
                 } else {
-                    res.status(404).send("User Not found")
+                    res.status(404).send("404")
                 }
             })
     })
+
     .delete((req, res) => {
         UserModel.findOneAndRemove({ _id: req.params.id })
-            .exec(((err, delUser) => {
+            .exec((err, deletedUser) => {
                 if (err) {
                     res.status(400).send(err)
-                } else if (delUser) {
+                } else if (deletedUser) {
                     res.status(204).send()
                 } else {
-                    res.status(404).send("404 --- User Not found")
+                    res.status(404).send("404 --- User Not Found")
                 }
-            }))
-    })
-    .put((req, res) => {
-        UserModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-            .exec(((err, updateUser) => {
-                if (err) {
-                    res.status(400).send(err)
-                } else if (updateUser) {
-                    res.status(200).send(updateUser)
-                } else {
-                    res.status(404).send("404 --- User Not found")
-                }
-            }))
+            })
     })
 
-module.exports = userRoute
+    .put((req, res) => {
+        UserModel.findOneAndUpdate({ _id: req.params },
+            req.body, {
+                new: true
+            })
+            .exec((err, updatedUser) => {
+                if (err) {
+                    res.status(400).send(err)
+                } else if (updatedUser) {
+                    res.status(200).send(updateUser)
+                } else {
+                    res.status(404).send("404 -- User Not Found")
+                }
+            })
+    })
+
+module.exports = usersRouter;
