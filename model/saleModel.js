@@ -3,9 +3,8 @@ const { Schema } = mongoose;
 
 const saleSchema = new Schema({
     address: { required: true, type: String },
-    time: { required: true, type: String },
-    phoneNumber: { required: false, type: Number },
-    emailAddress: { required: false, type: String },
+    startTime: { required: true, type: String },
+    endTime: { required: true, type: String },
     description: { required: true, type: String },
     imgUrl: { required: false, type: String }
 });
