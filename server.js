@@ -7,6 +7,7 @@ const morgan = require ("morgan")
 const userRoute = require ("./routes/userRoute")
 const authRoute = require ("./routes/authRoute")
 const saleRoute = require ("./routes/saleRoute")
+const profileRoute = require ("./routes/profileRoute")
 
 require ("dotenv").config()
 
@@ -16,8 +17,11 @@ app.use("/api", expressJwt({secret: process.env.SECRET}))
 app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use("/api/user", userRoute);
-app.use("/auth", authRoute);
 app.use("/api/sale", saleRoute);
+app.use("/api/profile", saleRoute);
+
+app.use("/auth", authRoute);
+
 
 const db= process.env.MONGODB_URI
 mongoose.connect(db, (err) => { 

@@ -11,6 +11,7 @@ const userSchema = new Schema({
         lowercase: true
     },
     password: { required: true, type: String },
+    phoneNumber: String,
     emailVerified: { default: false, type: Boolean },
     accountStatus: { default: "unverified", type: String },
     token: { type: String }
