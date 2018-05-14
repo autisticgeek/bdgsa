@@ -18,7 +18,7 @@ app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use("/api/user", userRoute);
 app.use("/api/sale", saleRoute);
-app.use("/api/profile", saleRoute);
+app.use("/api/profile", profileRoute);
 
 app.use("/auth", authRoute);
 

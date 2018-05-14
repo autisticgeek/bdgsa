@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import Navbar from "./Navbar";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
 import Signup from "./Signup";
@@ -7,7 +6,7 @@ import Login from "./Login";
 // import TodoList from "./Todos";
 import Profile from "./Profile"
 import Navbar from "./Navbar"
-import ProtectedRoute from "./ProtectedRoute"
+// import ProtectedRoute from "./ProtectedRoute"
 
 import {connect} from "react-redux"
 import {verify} from "./redux/auth"
@@ -31,7 +30,8 @@ componentDidMount(){
                 <Route path="/login" render={props => isAuthenticated 
                 ? <Redirect to ="/profile"/> : <Login {...props}/>}/>
                 {/* <ProtectedRoute path="/todos" component={TodoList}/> */}
-                <ProtectedRoute path="/profile" component={Profile}/>
+                {/* <ProtectedRoute path="/profile" component={Profile}/> */}
+                <Profile/>
             </Switch>
             }
         </div>

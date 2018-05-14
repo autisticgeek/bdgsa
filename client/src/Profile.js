@@ -1,17 +1,24 @@
 // main/Profile.js
-import React from "react";  
-import {connect} from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
 
-function Profile(props) {  
+function guest(name) {
+    if (name) {
+        return name
+    } else {
+        return "Guest"
+    }
+}
+
+function Profile(props) {
     return (
         <div>
-            <h2>Welcome, <i>{props.name}</i></h2>
-            {/* <p>{props.title}</p> */}
+            <h1>Welcome, <strong>{guest (props.name)}</strong></h1>
         </div>
     )
 }
 
-const mapStateToProps = (state) => {  
+const mapStateToProps = (state) => {
     return state.user;
 }
 
