@@ -8,6 +8,7 @@ const saleSchema = new Schema({
     endTime: { required: true, type: String },
     description: { required: true, type: String },
     imgUrl: { required: false, type: String },
+    type:{type:String},
     sellerId: { required: true, type: mongoose.Schema.Types.ObjectId,
     ref: "Users"
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
-
+import AddSale from "./AddSale"
 import Signup from "./Signup";
 import Login from "./Login";
 // import TodoList from "./Todos";
@@ -29,9 +29,11 @@ componentDidMount(){
                 ? <Redirect to ="/profile" /> : <Signup {...props}/>} />
                 <Route path="/login" render={props => isAuthenticated 
                 ? <Redirect to ="/profile"/> : <Login {...props}/>}/>
-                {/* <ProtectedRoute path="/todos" component={TodoList}/> */}
+                {/* <ProtectedRoute path="/addSale" component={AddSale}/> */}
+                <Route path="/addSale" component={AddSale}/>
                 {/* <ProtectedRoute path="/profile" component={Profile}/> */}
                 <Profile/>
+           
             </Switch>
             }
         </div>
