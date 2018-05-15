@@ -1,6 +1,10 @@
 import axios from "axios";
-import uuid from "uuid";
-
+const salesAxios = axios.create();
+salesAxios.interceptors.request.use(config =>{
+    const token = localStorage.getItem("token")
+    config.headers.Authorization=`Bearer ${token}`;
+    return config
+})
 const initialState = {
     data: [],
     currentSales: [],
@@ -21,10 +25,10 @@ const authUserReducer = (state = initialState, action) =>{
                 ...state,
                 loading: false,
                 data: state.data.map(cards => {
-                    if (sales._id === action._id) {
+                    if (action.sales._id === action._id) {
                         return action.sales;
                     } else {
-                        return sales;
+                        return action.sales;
                     }
                 })   
             }
@@ -37,18 +41,20 @@ const authUserReducer = (state = initialState, action) =>{
         case "REMOVE_ONE_SALE":
                 return {
                     ...state,
-                    currentSales: state.currentSales.filter(card => sale._id !== action._id),
+                    currentSales: state.currentSales.filter(card => action.sales._id !== action._id),
                     loading: false,
                     errMsg: action.errMsg
                 }
+        default :
+        return state
             }
     }
 
-    const authUserApi = "/authUser/"
+    const authUserApi = "/api/user"
 
     export const getCurrentSales = (saleId) => {
         return dispatch => {
-            axios.get(authUserApi)
+            salesAxios.get("/api/authUser")
                 .then(response => {
                     dispatch({
                         type: "GET_CURRENT_SALES",
@@ -65,7 +71,7 @@ const authUserReducer = (state = initialState, action) =>{
     }
     export const getOneSale = ()=> {
         return dispatch => {
-            axios.get(authUserApi)
+            salesAxios.get(authUserApi)
             .then(response => {
                 dispatch({
                     type: "GET_ONE_SALE",
@@ -82,7 +88,7 @@ const authUserReducer = (state = initialState, action) =>{
     }
     export const postSale = ()=>{
         return dispatch =>{
-            axios.post(authUserApi)
+            salesAxios.post(authUserApi)
             .then(response => {
                 dispatch({
                     type: "POST_SALE",
@@ -99,7 +105,7 @@ const authUserReducer = (state = initialState, action) =>{
     }
     export const removeOneSale = (deleteID) => {
         return dispatch => {
-            axios.delete(authUserApi + deleteID)
+            salesAxios.delete(authUserApi + deleteID)
             .then(response =>{
                 dispatch({
                     type: "REMOVE_ONE_SALE",
@@ -115,4 +121,4 @@ const authUserReducer = (state = initialState, action) =>{
         }
     }
 
-    export default salesReducer;
+    export default authUserReducer;

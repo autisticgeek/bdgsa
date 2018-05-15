@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const saleSchema = new Schema({
-    saleType: { required: true, type: String },
+    type: { required: true, type: String, enum:["yardsale", "garagesale", "movingsale", "estatesale"] },
     address: { required: true, type: String },
-    startTime: { required: true, type: String },
-    endTime: { required: true, type: String },
+    start_time: { required: true, type: String },
+    end_time: { required: true, type: String },
+    date:{required:true, type: Date},
     description: { required: true, type: String },
-    imgUrl: { required: false, type: String },
+    image_url: { required: false, type: String },
     sellerId: { required: true, type: mongoose.Schema.Types.ObjectId,
     ref: "Users"
     }

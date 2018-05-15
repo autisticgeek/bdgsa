@@ -66,7 +66,7 @@ export function verify (){
         })
         .catch(err =>{
             dispatch({
-                type: "STOP_LOADIN"
+                type: "STOP_LOADING"
             })
         })
     }
