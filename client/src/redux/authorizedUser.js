@@ -50,7 +50,7 @@ const authUserReducer = (state = initialState, action) =>{
             }
     }
 
-    const authUserApi = "/authUser/"
+    const authUserApi = "/api/user"
 
     export const getCurrentSales = (saleId) => {
         return dispatch => {

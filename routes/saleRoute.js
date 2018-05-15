@@ -16,6 +16,7 @@ saleRoute.route("/")
             })
     })
     .post((req, res) => {
+        console.log(req.body);
         const newData = new SaleModel(req.body)
         newData.save((err, addedData) => err ? res.status(400).send(err) : res.status(201).send(addedData))
     })

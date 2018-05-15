@@ -13,7 +13,7 @@ require ("dotenv").config()
 
 const app = express()
 const PORT = process.env.PORT || 8080;
-// app.use("/api", expressJwt({secret: process.env.SECRET}))
+app.use("/api", expressJwt({secret: process.env.SECRET}))
 app.use(bodyParser.json())
 app.use(morgan("dev"))
 app.use("/api/user", userRoute);

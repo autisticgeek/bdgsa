@@ -2,9 +2,12 @@ import React, { Component } from "react"
 import axios from "axios"
 import { connect } from "react-redux"
 import { getCurrentSales } from "./redux/authorizedUser.js"
-const config ={
-    headers: {"authorization": "bearer"+ localStorage.getItem("token")}
-}
+const saleAxios = axios.create()
+saleAxios.interceptors.request.use(config =>{
+    const token = localStorage.getItem("token")
+    config.headers.Authorization=`Bearer ${token}`;
+    return config
+})
 class AddSale extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +19,8 @@ class AddSale extends Component {
                image_url:"",
                description: "",
                date:"",
-               type :""
+               type :"yardsale",
+               sellerId:this.props.user._id
 
             },
         }
@@ -37,7 +41,9 @@ class AddSale extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        axios.post("/api/sale", this.state.inputs, config).then(response => console.log(response.data))
+        console.log(this.state.inputs);
+        
+        saleAxios.post("/api/sale", this.state.inputs).then(response => console.log(response.data))
         // const { inputs } = this.state;
         // this.props.getCurrentSales();
         // this.setState(this.initialState)
@@ -45,7 +51,8 @@ class AddSale extends Component {
 
 
     render() {
-        const { type, address, start_time, end_time, image_url, description,date} = this.state.inputs;
+        
+        const { type, address, start_time, end_time, image_url, description, date} = this.state.inputs;
         return (
 
             <div className="form-body">
@@ -63,7 +70,7 @@ class AddSale extends Component {
                     <input onChange={this.handleChange} name="end_time" value={end_time} type="text" placeholder="End Time" />
                     <input  onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" />
                     <textarea col="10" row="5" onChange={this.handleChange} name ="description" value={description} type="text" placeholder="Description" />
-                    <input onChange={this.handleChange} name="date" value={date} type="text" placeholder="Date"/>                  
+                    <input onChange={this.handleChange} name="date" value={date} type="date" placeholder="Date"/>                  
                     <button className="add-Sale">Add Sale</button>
                 </form>
             </div>
@@ -71,4 +78,4 @@ class AddSale extends Component {
         )
     }
 }
-export default connect(null, { getCurrentSales })(AddSale);
+export default connect(state => state, { getCurrentSales })(AddSale);
