@@ -2,12 +2,10 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
 import user from "./auth"
-import auth from "./auth"
 // import regUser from "./regUser"
 // import unregUser from "./unregUser"
 
 const reducer = combineReducers({ 
-    auth,
     user
     // regUser,
     // unregUser

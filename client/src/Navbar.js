@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { logout } from "./redux/auth"
-import { connect } from "react-redux"
-function Navbar(props) {
+import {Link} from "react-router-dom";
+import {logout} from "./redux/auth"
+import {connect} from "react-redux"
+
+function Navbar (props){
     return (
         <div className="navbar-wrapper">
             <div className="nav-link"><Link to="/">Home</Link></div>
