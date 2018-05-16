@@ -9,3 +9,9 @@ a{
     padding-right: 8px;
     text-decoration: none;
 }
+.orange{
+ color: orangered
+}
+.fa-location-arrow{
+    transform: rotate(180deg) scaleY(-1);
+}
