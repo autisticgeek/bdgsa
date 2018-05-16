@@ -4,6 +4,7 @@
 }
 .navbar-wrapper{
     display: flex;
+    padding-bottom: 10px;
 }
 a{
     padding-right: 8px;
@@ -14,4 +15,11 @@ a{
 }
 .fa-location-arrow{
     transform: rotate(180deg) scaleY(-1);
+}
+.title{
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Archivo Black', sans-serif;
+    margin-top: -3px;
+    margin-bottom: -10px;
 }
