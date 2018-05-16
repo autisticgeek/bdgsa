@@ -2,6 +2,7 @@ import React from 'react'
 
 function SignupForm(props) {
     return (
+        
         <div className="form-wrapper">
             <form onSubmit={props.handleSubmit}>
                 <h3>Sign Up</h3>

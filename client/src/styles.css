@@ -1,0 +1,11 @@
+.google-map{
+    height:80vh;
+    width:100vw;
+}
+.navbar-wrapper{
+    display: flex;
+}
+a{
+    padding-right: 8px;
+    text-decoration: none;
+}
