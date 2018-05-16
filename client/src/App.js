@@ -24,13 +24,13 @@ componentDidMount(){
             <div>...loading</div>
             :
             <Switch>
-                <Route exact path="/" render={props => isAuthenticated 
-                ? <Redirect to ="/profile" /> : <Signup {...props}/>} />
+
+                <Route exact path="/" component={Profile}/>
                 <Route path="/login" render={props => isAuthenticated 
-                ? <Redirect to ="/profile"/> : <Login {...props}/>}/>
+                ? <Redirect to ="/"/> : <Login {...props}/>}/>
+                <Route path="/signup" render={props => isAuthenticated 
+                ? <Redirect to ="/"/> : <Signup {...props}/>}/>
                 <ProtectedRoute path="/addSale" component={AddSale}/>
-                {/* <ProtectedRoute path="/profile" component={Profile}/> */}
-                <Profile/>
            
             </Switch>
             }
