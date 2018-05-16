@@ -15,7 +15,8 @@ const initialState = {
     authErrCode: { 
         signup: "",
         login: ""
-    }
+    },
+    isAuthenticated: false
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {

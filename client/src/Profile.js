@@ -15,6 +15,7 @@ function guest(name) {
 function Profile(props) {
     return (
         <div>
+            <h1 className="title">THE BEST DANG GARAGE SALE APP</h1>
             <h1>Welcome, <strong>{guest (props.name)}</strong></h1>
             <Maps />
         </div>

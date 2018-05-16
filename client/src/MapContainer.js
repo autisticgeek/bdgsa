@@ -46,6 +46,7 @@ class Maps extends Component {
     render() {
         console.log(this.state)
         return <div className='google-map'>
+            <button onClick={this.geolocate}>Find ME</button>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: "AIzaSyAp_gcAL9g64umPJUNU10vjP3Y-MHbmmQo" }}
                     center={{ lat: 40.7, lng: -111.80 }}
@@ -53,7 +54,7 @@ class Maps extends Component {
                     <div lat={this.state.lat} lng={this.state.lng}>&mdot;</div>
 
 
-                </GoogleMapReact><button onClick={this.geolocate}>Find ME</button>
+                </GoogleMapReact>
 
             </div>
     }
