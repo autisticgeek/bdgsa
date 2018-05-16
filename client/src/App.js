@@ -18,7 +18,7 @@ componentDidMount(){
     const {isAuthenticated, loading} = this.props;
     return (
         <div className="app-wrapper">
-            <Navbar/>
+            <Navbar isAuthenticated = {isAuthenticated}/>
             {
             loading ?
             <div>...loading</div>
