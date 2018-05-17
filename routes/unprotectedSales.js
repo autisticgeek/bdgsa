@@ -4,7 +4,23 @@ const SaleModel = require("../model/saleModel");
 
 saleRoute.route("/")
     .get((req, res) => {
-        SaleModel.find(req.query)
+        let today = new Date();
+        let before = new Date().setDate(today.getDate() - 1);
+        
+
+        SaleModel.find(
+            {
+                "date": {"$gte": before},
+                "lat":{
+                    "$gte": Number(req.query.lat)-0.18,
+                    "$lte": Number(req.query.lat)+0.18
+                },
+                "lng":{
+                    "$gte": Number(req.query.lng)-0.18,
+                    "$lte": Number(req.query.lng)+0.18
+                }
+            }
+        )
             .exec((err, foundSale) => {
                 if (err) {
                     res.status(400).send(err)
@@ -15,7 +31,7 @@ saleRoute.route("/")
                 }
             })
     })
-   
+
 saleRoute.route("/:id")
     .get((req, res) => {
         SaleModel.findOne({ _id: req.params.id })
@@ -29,7 +45,7 @@ saleRoute.route("/:id")
                 }
             })
     })
- 
-   
+
+
 
 module.exports = saleRoute
