@@ -9,25 +9,27 @@ class Maps extends Component {
         super(props);
         this.state = {
             lat: 0,
-            lng: 0
+            lng: 0,
+            sales: []
         }
         this.onGeolocateError = this.onGeolocateError.bind(this);
         this.onGeolocateSuccess = this.onGeolocateSuccess.bind(this);
         this.geolocate = this.geolocate.bind(this)
-        
+
     }
-    onGeolocateSuccess = (coordinates) =>{
+    onGeolocateSuccess = (coordinates) => {
         const { latitude, longitude } = coordinates.coords;
         console.log('Found coordinates: ', latitude, longitude);
         this.setState(() => {
             return {
+                ...this.state,
                 lat: latitude,
                 lng: longitude
             };
         });
     }
 
-    onGeolocateError= (error) => {
+    onGeolocateError = (error) => {
         console.warn(error.code, error.message);
 
         if (error.code === 1) {
@@ -38,34 +40,42 @@ class Maps extends Component {
             console.log("timeout")
         }
     }
-    geolocate= () => {
+    geolocate = () => {
         if (window.navigator && window.navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.onGeolocateSuccess, this.onGeolocateError);
         }
     }
-   getSales = ()=> {
+    getSales = () => {
         axios.get(`/sales`).then(responce => {
-            console.log(responce.data)
+            console.log("get sales", responce.data)
+            let sales = responce.data.filter(sale =>{
+                return true
+            })
+            this.setState({
+                ...this.state,
+                sales: responce.data
+            })
         })
     }
     componentDidMount() {
         this.geolocate();
+        this.getSales();
     }
 
 
     render() {
         console.log("props", this.props)
-
-
-        //let sales = [{lat:40.7, lng:-111.887}, {lat:40.5, lng:-111.8}, {lat:-1.1745995, lng:116.7016587}]
+        console.log("state", this.state)
         let salesArr = []
-        if (this.state.lat) {
-            let sales = this.getSales()
-            salesArr = sales.map(sale => <div lat={sale.lat} lng={sale.lng}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>)
-
-
+        if (this.state.lat && this.state.sales.length > 0) {
+            
+            salesArr = this.state.sales.map(sale => {
+                console.log("sale", sale);
+                
+            return <div  key={sale._id} lat={sale.lat.$numberDecimal} lng={sale.lng.$numberDecimal}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>})
         }
-        console.log(sales);
+
+
         return <div className='google-map'>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyAp_gcAL9g64umPJUNU10vjP3Y-MHbmmQo" }}
@@ -78,7 +88,7 @@ class Maps extends Component {
 
             </GoogleMapReact>
 
-        </div>
+        </div >
     }
 }
 
