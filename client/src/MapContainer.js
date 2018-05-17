@@ -27,6 +27,7 @@ class Maps extends Component {
                 lng: longitude
             };
         });
+        this.getSales(this.state.lat, this.state.lng);
     }
 
     onGeolocateError = (error) => {
@@ -44,22 +45,25 @@ class Maps extends Component {
         if (window.navigator && window.navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.onGeolocateSuccess, this.onGeolocateError);
         }
+        
     }
-    getSales = () => {
-        axios.get(`/sales`).then(responce => {
-            console.log("get sales", responce.data)
-            let sales = responce.data.filter(sale =>{
-                return true
+    getSales = (lat, lng) => {
+            axios.get(`/sales?lat=${lat}&lng=${lng}`).then(responce => {
+                console.log("get sales", responce.data)
+                let sales = responce.data.filter(sale => {
+                    return true
+                })
+                this.setState({
+                    ...this.state,
+                    sales: responce.data
+                })
             })
-            this.setState({
-                ...this.state,
-                sales: responce.data
-            })
-        })
+        
     }
     componentDidMount() {
         this.geolocate();
-        this.getSales();
+        
+
     }
 
 
@@ -68,14 +72,16 @@ class Maps extends Component {
         console.log("state", this.state)
         let salesArr = []
         if (this.state.lat && this.state.sales.length > 0) {
-            
+
+
             salesArr = this.state.sales.map(sale => {
                 console.log("sale", sale);
-                
-            return <div  key={sale._id} lat={sale.lat} lng={sale.lng}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>})
+
+                return <div key={sale._id} lat={sale.lat} lng={sale.lng}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>
+            })
         }
         console.log("Sales Array", salesArr);
-        
+
 
 
         return <div className='google-map'>

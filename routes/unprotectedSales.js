@@ -6,9 +6,21 @@ saleRoute.route("/")
     .get((req, res) => {
         let today = new Date();
         let before = new Date().setDate(today.getDate() - 1);
+        
 
-
-        SaleModel.find({"date": {"$gte": before}})
+        SaleModel.find(
+            {
+                "date": {"$gte": before},
+                "lat":{
+                    "$gte": Number(req.query.lat)-0.18,
+                    "$lte": Number(req.query.lat)+0.18
+                },
+                "lng":{
+                    "$gte": Number(req.query.lng)-0.18,
+                    "$lte": Number(req.query.lng)+0.18
+                }
+            }
+        )
             .exec((err, foundSale) => {
                 if (err) {
                     res.status(400).send(err)
