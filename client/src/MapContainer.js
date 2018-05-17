@@ -72,8 +72,10 @@ class Maps extends Component {
             salesArr = this.state.sales.map(sale => {
                 console.log("sale", sale);
                 
-            return <div  key={sale._id} lat={sale.lat.$numberDecimal} lng={sale.lng.$numberDecimal}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>})
+            return <div  key={sale._id} lat={sale.lat} lng={sale.lng}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>})
         }
+        console.log("Sales Array", salesArr);
+        
 
 
         return <div className='google-map'>
