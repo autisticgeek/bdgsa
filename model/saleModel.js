@@ -9,8 +9,10 @@ const saleSchema = new Schema({
     date:{required:true, type: Date},
     description: { required: true, type: String },
     image_url: { required: false, type: String },
+    lat:{required:false, type:Number},
+    lng:{required:false, type:Number},
     sellerId: { required: true, type: mongoose.Schema.Types.ObjectId,
-    ref: "Users"
+    ref: "Users",
     }
 });
 
