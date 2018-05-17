@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapReact from 'google-map-react'
+import axios from "axios"
 
 import { connect } from "react-redux";
 
@@ -8,24 +9,27 @@ class Maps extends Component {
         super(props);
         this.state = {
             lat: 0,
-            lng: 0
+            lng: 0,
+            sales: []
         }
         this.onGeolocateError = this.onGeolocateError.bind(this);
         this.onGeolocateSuccess = this.onGeolocateSuccess.bind(this);
         this.geolocate = this.geolocate.bind(this)
+
     }
-    onGeolocateSuccess(coordinates) {
+    onGeolocateSuccess = (coordinates) => {
         const { latitude, longitude } = coordinates.coords;
         console.log('Found coordinates: ', latitude, longitude);
         this.setState(() => {
             return {
+                ...this.state,
                 lat: latitude,
                 lng: longitude
             };
         });
     }
 
-    onGeolocateError(error) {
+    onGeolocateError = (error) => {
         console.warn(error.code, error.message);
 
         if (error.code === 1) {
@@ -36,27 +40,55 @@ class Maps extends Component {
             console.log("timeout")
         }
     }
-    geolocate() {
+    geolocate = () => {
         if (window.navigator && window.navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.onGeolocateSuccess, this.onGeolocateError);
         }
     }
+    getSales = () => {
+        axios.get(`/sales`).then(responce => {
+            console.log("get sales", responce.data)
+            let sales = responce.data.filter(sale =>{
+                return true
+            })
+            this.setState({
+                ...this.state,
+                sales: responce.data
+            })
+        })
+    }
+    componentDidMount() {
+        this.geolocate();
+        this.getSales();
+    }
 
 
     render() {
-        console.log(this.state)
+        console.log("props", this.props)
+        console.log("state", this.state)
+        let salesArr = []
+        if (this.state.lat && this.state.sales.length > 0) {
+            
+            salesArr = this.state.sales.map(sale => {
+                console.log("sale", sale);
+                
+            return <div  key={sale._id} lat={sale.lat.$numberDecimal} lng={sale.lng.$numberDecimal}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>})
+        }
+
+
         return <div className='google-map'>
-            <button onClick={this.geolocate}>Find ME</button>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyAp_gcAL9g64umPJUNU10vjP3Y-MHbmmQo" }}
-                    center={{ lat: 40.7, lng: -111.80 }}
-                    zoom={9}>
-                    <div lat={this.state.lat} lng={this.state.lng}>&mdot;</div>
+            <GoogleMapReact
+                bootstrapURLKeys={{ key: "AIzaSyAp_gcAL9g64umPJUNU10vjP3Y-MHbmmQo" }}
+                center={{ lat: 40.7, lng: -111.80 }}
+                zoom={9}>
+                <div lat={this.state.lat} lng={this.state.lng}><i class="fas fa-map-marker-alt fa-2x orange"></i></div>
+                {salesArr}
 
 
-                </GoogleMapReact>
 
-            </div>
+            </GoogleMapReact>
+
+        </div >
     }
 }
 

@@ -8,6 +8,7 @@ const userRoute = require ("./routes/userRoute")
 const authRoute = require ("./routes/authRoute")
 const saleRoute = require ("./routes/saleRoute")
 const profileRoute = require ("./routes/profileRoute")
+const unprotectedSales = require("./routes/unprotectedSales")
 
 require ("dotenv").config()
 
@@ -21,6 +22,7 @@ app.use("/api/sale", saleRoute);
 app.use("/api/profile", profileRoute);
 
 app.use("/auth", authRoute);
+app.use ("/sales", unprotectedSales)
 
 
 const db= process.env.MONGODB_URI
