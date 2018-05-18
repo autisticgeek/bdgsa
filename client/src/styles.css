@@ -123,3 +123,7 @@ a{
     margin-top: 10px;
     margin-bottom: -10px;
 }
+.description{
+    padding-bottom: 7px;
+    font-size: 20px;
+}

@@ -22,10 +22,12 @@ export default class Sale extends Component {
         console.log("state", this.state);
 
         if (this.state) {
-            const { lat, lng, address, type } = this.state
+            const { lat, lng, address, type, title, description} = this.state
             return (
                 <div>
-                    <h2>{type.toUpperCase()}</h2>
+                    <h2>{title.toUpperCase()}</h2>
+                    <h3>{type.toUpperCase()}</h3>
+                    <div className="description">{description}</div>
                     <address>{address}</address>
                     <a href={`https://maps.google.com/maps?q=${lat},${lng}&hl=en&t=h&z=15`}>Map</a>
                 </div>
