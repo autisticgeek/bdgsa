@@ -26,7 +26,6 @@ componentDidMount(){
             <div>...loading</div>
             :
             <Switch>
-
                 <Route exact path="/" component={Profile}/>
                 <Route path="/login" render={props => isAuthenticated 
                 ? <Redirect to ="/"/> : <Login {...props}/>}/>
@@ -35,9 +34,9 @@ componentDidMount(){
                 <ProtectedRoute path="/addSale" component={AddSale}/>
                 <ProtectedRoute path="/editSale/:id" component={EditSale}/>
                 <Route path="/details/:id" component={Details}/>
-           
             </Switch>
             }
+            
         </div>
     )
   }

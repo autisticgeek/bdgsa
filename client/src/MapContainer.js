@@ -89,7 +89,6 @@ class Maps extends Component {
 
 
             </GoogleMapReact>
-
         </div >
     }
 }
