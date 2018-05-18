@@ -11,6 +11,7 @@ const saleSchema = new Schema({
     image_url: { required: false, type: String },
     lat:{required:false, type:Number},
     lng:{required:false, type:Number},
+    title:{required:true, type: String},
     sellerId: { required: true, type: mongoose.Schema.Types.ObjectId,
     ref: "user",
     }
