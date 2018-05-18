@@ -70,8 +70,9 @@ class EditSale extends Component {
         const { type, address, start_time, end_time, date, image_url, description, title } = this.state.inputs;
         return (
 
-            <div>
-                <form onSubmit={this.handleSubmit}>
+            <div className="form-body">
+                <h1>Edit Sale</h1>
+                <form className="add-form" onSubmit={this.handleSubmit}>
                     <select value={type} name="type" onChange={this.handleChange}>
                         <option value="yardsale" >Yardsale</option>
                         <option value="garagesale">Garagesale</option>
@@ -86,7 +87,7 @@ class EditSale extends Component {
                      <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" /> 
                      <textarea col="10" row="5" onChange={this.handleChange} name="description" value={description} type="text" placeholder="Description" /> 
                     <input onChange={this.handleChange} name="date" value={date} type="date" />
-                    <button>Save Changes</button>
+                    <button className="add-Sale">Save Changes</button>
                 </form>
             </div>
 
