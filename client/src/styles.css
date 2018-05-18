@@ -127,3 +127,22 @@ a{
     padding-bottom: 7px;
     font-size: 20px;
 }
+.salePage{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    color: whitesmoke;
+}
+.saleClass{
+    padding-bottom: 10px;
+}
+.saleTitle{
+    font-size: 30px;
+}
+.imgUrl{
+    height: 200px;
+    width: 200px;
+}
