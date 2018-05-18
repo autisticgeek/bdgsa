@@ -12,7 +12,7 @@ const saleSchema = new Schema({
     lat:{required:false, type:Number},
     lng:{required:false, type:Number},
     sellerId: { required: true, type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
+    ref: "user",
     }
 });
 

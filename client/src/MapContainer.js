@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleMapReact from 'google-map-react'
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 import { connect } from "react-redux";
 
@@ -11,12 +12,8 @@ class Maps extends Component {
             lat: 39.833333,
             lng: -98.583333,
             sales: [],
-            loading:true
+            loading: true
         }
-        this.onGeolocateError = this.onGeolocateError.bind(this);
-        this.onGeolocateSuccess = this.onGeolocateSuccess.bind(this);
-        this.geolocate = this.geolocate.bind(this)
-
     }
     onGeolocateSuccess = (coordinates) => {
         const { latitude, longitude } = coordinates.coords;
@@ -26,7 +23,7 @@ class Maps extends Component {
                 ...this.state,
                 lat: latitude,
                 lng: longitude,
-                loading:false
+                loading: false
             };
         });
         this.getSales(this.state.lat, this.state.lng);
@@ -47,22 +44,20 @@ class Maps extends Component {
         if (window.navigator && window.navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.onGeolocateSuccess, this.onGeolocateError);
         }
-        
+
     }
     getSales = (lat, lng) => {
-            axios.get(`/sales?lat=${lat}&lng=${lng}`).then(responce => {
-                console.log("get sales", responce.data)
-                this.setState({
-                    ...this.state,
-                    sales: responce.data
-                })
+        axios.get(`/sales?lat=${lat}&lng=${lng}`).then(responce => {
+            console.log("get sales", responce.data)
+            this.setState({
+                ...this.state,
+                sales: responce.data
             })
-        
+        })
+
     }
     componentDidMount() {
         this.geolocate();
-        
-
     }
 
 
@@ -70,13 +65,13 @@ class Maps extends Component {
         console.log("props", this.props)
         console.log("state", this.state)
         let salesArr = []
-        if (this.state.lat && this.state.sales.length > 0) {
+        if (this.state.sales.length > 0) {
 
 
             salesArr = this.state.sales.map(sale => {
                 console.log("sale", sale);
 
-                return <div key={sale._id} lat={sale.lat} lng={sale.lng}><i class="fas fa-location-arrow fa-2x orange mirror"></i></div>
+                return <div key={sale._id} lat={sale.lat} lng={sale.lng}><Link to={`/details/${sale._id}`}><i class="fas fa-location-arrow fa-2x orange mirror"></i></Link></div>
             })
         }
         console.log("Sales Array", salesArr);
