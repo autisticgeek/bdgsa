@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Profile from "./Profile"
 import Navbar from "./Navbar"
+import Details from "./SalePage"
 import ProtectedRoute from "./ProtectedRoute"
 
 import {connect} from "react-redux"
@@ -31,6 +32,7 @@ componentDidMount(){
                 <Route path="/signup" render={props => isAuthenticated 
                 ? <Redirect to ="/"/> : <Signup {...props}/>}/>
                 <ProtectedRoute path="/addSale" component={AddSale}/>
+                <Route path="/details/:id" component={Details}/>
            
             </Switch>
             }
