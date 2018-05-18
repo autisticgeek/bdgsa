@@ -8,9 +8,10 @@ class Maps extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: 0,
-            lng: 0,
-            sales: []
+            lat: 39.833333,
+            lng: -98.583333,
+            sales: [],
+            loading:true
         }
         this.onGeolocateError = this.onGeolocateError.bind(this);
         this.onGeolocateSuccess = this.onGeolocateSuccess.bind(this);
@@ -24,7 +25,8 @@ class Maps extends Component {
             return {
                 ...this.state,
                 lat: latitude,
-                lng: longitude
+                lng: longitude,
+                loading:false
             };
         });
         this.getSales(this.state.lat, this.state.lng);
@@ -50,9 +52,6 @@ class Maps extends Component {
     getSales = (lat, lng) => {
             axios.get(`/sales?lat=${lat}&lng=${lng}`).then(responce => {
                 console.log("get sales", responce.data)
-                let sales = responce.data.filter(sale => {
-                    return true
-                })
                 this.setState({
                     ...this.state,
                     sales: responce.data
@@ -87,9 +86,9 @@ class Maps extends Component {
         return <div className='google-map'>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyAp_gcAL9g64umPJUNU10vjP3Y-MHbmmQo" }}
-                center={{ lat: 40.7, lng: -111.80 }}
-                zoom={9}>
-                <div lat={this.state.lat} lng={this.state.lng}><i class="fas fa-map-marker-alt fa-2x orange"></i></div>
+                center={{ lat: this.state.lat, lng: this.state.lng }}
+                zoom={10}>
+                {this.state.loading === false && <div lat={this.state.lat} lng={this.state.lng}><i class="fas fa-map-marker-alt fa-2x orange"></i></div>}
                 {salesArr}
 
 

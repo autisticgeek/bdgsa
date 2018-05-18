@@ -2,14 +2,11 @@ import React, { Component } from "react"
 import axios from "axios"
 import { connect } from "react-redux"
 import { getCurrentSales } from "./redux/authorizedUser.js"
-const addSaleAxios = axios.create()
-addSaleAxios.interceptors.request.use(config => {
-    const token = localStorage.getItem("token")
-    config.headers.Authorization = `Bearer ${token}`;
-    return config
-})
-const createSaleAxios = axios.create()
-createSaleAxios.interceptors.request.use(config => {
+import Geocode from "react-geocode";
+
+
+const SaleAxios = axios.create()
+SaleAxios.interceptors.request.use(config => {
     const token = localStorage.getItem("token")
     config.headers.Authorization = `Bearer ${token}`;
     return config
@@ -27,16 +24,16 @@ class AddSale extends Component {
                 description: "",
                 date: "",
                 type: "yardsale",
-                sellerId: this.props.user._id
+                sellerId: this.props.user._id,
+                lat: 0,
+                lng: 0
 
             },
             sales: []
         }
         this.state = this.initialState;
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
     }
-    handleChange(e) {
+    handleChange = (e) => {
         const { name, value } = e.target;
         this.setState(prevState => {
             return {
@@ -47,16 +44,52 @@ class AddSale extends Component {
             }
         })
     }
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.inputs);
-
-        addSaleAxios.post("/api/sale", this.state.inputs).then(response => console.log(response.data))
-        this.setState(this.initialState)
+        Geocode.setApiKey("AIzaSyDXLSCan0a10cZmkSk66pqS6WDP0gUKc-Q");
+        Geocode.enableDebug();
+        Geocode.fromAddress(this.state.inputs.address).then(
+            response => {
+                const { lat, lng } = response.results[0].geometry.location;
+                const { formatted_address } = response.results[0]
+                this.setState({
+                    ...this.state,
+                    inputs: {
+                        ...this.state.inputs,
+                        address: formatted_address,
+                        lat,
+                        lng
+                    }
+                })
+                SaleAxios.post("/api/sale", this.state.inputs).then(response => {
+                    this.setState({
+                        ...this.state,
+                        inputs: this.initialState.inputs,
+                        sales: [response.data, ...this.state.sales]
+                    })
+                })
+            },
+            error => {
+                console.error(error);
+            }
+        )
     }
 
+    delSale = (id) => {
+        SaleAxios.delete(`/api/sale/${id}`).then(response => {
+            this.setState({
+                ...this.state,
+                sales: this.state.sales.filter(sale => {
+                    if (sale._id === id) return false
+                    return true
+                })
+            })
+        })
+    }
+
+
     componentDidMount() {
-        addSaleAxios.get(`/api/sale?sellerId=${this.props.user._id}`).then(response => {
+        SaleAxios.get(`/api/sale?sellerId=${this.props.user._id}`).then(response => {
             this.setState(prevState => {
                 return {
                     ...prevState,
@@ -67,14 +100,12 @@ class AddSale extends Component {
     }
 
     render() {
-
-
         let ShowSales
         if (this.state.sales) {
             ShowSales = this.state.sales.map(sale => {
                 let d = new Date(sale.date)
                 return <tr key={sale._id}>
-                    <td>{sale._id}</td>
+                    <td><i class="fas fa-trash" onClick={() => this.delSale(sale._id)}></i></td>
                     <td>{sale.type}</td>
                     <td>{sale.address}</td>
                     <td>{d.toDateString()}</td>
@@ -97,7 +128,8 @@ class AddSale extends Component {
                         <option value="movingsale">Movingsale</option>
                         <option value="estatesale">Estatesale</option>
                     </select>
-                    <input onChange={this.handleChange} name="address" value={address} type="text" placeholder="Address" />
+                    <textarea onChange={this.handleChange} name="address" value={address} placeholder="Address" />
+                    {/* <input onChange={this.handleChange} name="address" value={address} placeholder="Address" /> */}
                     <input onChange={this.handleChange} name="start_time" value={start_time} type="text" placeholder="Start Time" />
                     <input onChange={this.handleChange} name="end_time" value={end_time} type="text" placeholder="End Time" />
                     <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" />
@@ -105,10 +137,10 @@ class AddSale extends Component {
                     <input onChange={this.handleChange} name="date" value={date} type="date" placeholder="Date" />
                     <button className="add-Sale">Add Sale</button>
                 </form>
-                <table  border="1">
+                <table border="1">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th><i class="fas fa-trash"></i></th>
                             <th>Type</th>
                             <th>Address</th>
                             <th>Date</th>
