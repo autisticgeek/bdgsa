@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import axios from "axios"
-const SaleAxios = axios.create()
-SaleAxios.interceptors.request.use(config => {
-    const token = localStorage.getItem("token")
-    config.headers.Authorization = `Bearer ${token}`;
-    return config
-})
+
 
 export default class Sale extends Component {
     getSale = () => {
         const id = this.props.match.params.id;
-        SaleAxios.get(`/sales/${id}`).then(respose => {
+        axios.get(`/sales/${id}`).then(respose => {
             this.setState(respose.data)
 
         })

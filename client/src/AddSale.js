@@ -3,7 +3,7 @@ import axios from "axios"
 import { connect } from "react-redux"
 import { getCurrentSales } from "./redux/authorizedUser.js"
 import Geocode from "react-geocode";
-import{Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const SaleAxios = axios.create()
@@ -107,7 +107,11 @@ class AddSale extends Component {
             ShowSales = this.state.sales.map(sale => {
                 let d = new Date(sale.date)
                 return <tr key={sale._id}>
-                    <td><i class="fas fa-trash" onClick={() => this.delSale(sale._id)}></i> <Link to={`details/${sale._id}`}><i class="far fa-folder-open"></i></Link></td>
+                    <td>
+                        <i class="fas fa-trash" onClick={() => this.delSale(sale._id)}></i>
+                        <Link to={`details/${sale._id}`}><i class="far fa-folder-open"></i></Link>
+                        <Link to={`editSale/${sale._id}`}><i class="far fa-edit"></i></Link>
+                    </td>
                     <td>{sale.type}</td>
                     <td>{sale.title}</td>
                     <td>{sale.address}</td>
