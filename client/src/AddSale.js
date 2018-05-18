@@ -19,6 +19,7 @@ class AddSale extends Component {
         this.initialState = {
             inputs: {
                 address: "",
+                title: "",
                 start_time: "",
                 end_time: "",
                 image_url: "",
@@ -108,14 +109,16 @@ class AddSale extends Component {
                 return <tr key={sale._id}>
                     <td><i class="fas fa-trash" onClick={() => this.delSale(sale._id)}></i> <Link to={`details/${sale._id}`}><i class="far fa-folder-open"></i></Link></td>
                     <td>{sale.type}</td>
+                    <td>{sale.title}</td>
                     <td>{sale.address}</td>
+                    {/* <td>{sale.description}</td> */}
                     <td>{d.toDateString()}</td>
                     <td>{sale.start_time}</td>
                     <td>{sale.end_time}</td>
                 </tr>
             })
         }
-        const { type, address, start_time, end_time, image_url, description, date } = this.state.inputs;
+        const { type, address, start_time, end_time, image_url, description, date, title } = this.state.inputs;
 
         return (
 
@@ -130,11 +133,12 @@ class AddSale extends Component {
                         <option value="estatesale">Estatesale</option>
                     </select>
                     <textarea onChange={this.handleChange} name="address" value={address} placeholder="Address" />
+                    <input onChange={this.handleChange} name="title" value={title} placeholder="title" />
                     {/* <input onChange={this.handleChange} name="address" value={address} placeholder="Address" /> */}
                     <input onChange={this.handleChange} name="start_time" value={start_time} type="text" placeholder="Start Time" />
                     <input onChange={this.handleChange} name="end_time" value={end_time} type="text" placeholder="End Time" />
-                    <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" />
                     <textarea col="10" row="5" onChange={this.handleChange} name="description" value={description} type="text" placeholder="Description" />
+                    <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" />
                     <input onChange={this.handleChange} name="date" value={date} type="date" placeholder="Date" />
                     <button className="add-Sale">Add Sale</button>
                 </form>
@@ -142,7 +146,9 @@ class AddSale extends Component {
                     <thead>
                         <tr>
                             <th>action</th>
+                            <th>Title</th>
                             <th>Type</th>
+                            <th>Description</th>
                             <th>Address</th>
                             <th>Date</th>
                             <th>Start Time</th>
