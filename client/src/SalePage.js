@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from "axios"
 
 
+
 export default class Sale extends Component {
     getSale = () => {
         const id = this.props.match.params.id;

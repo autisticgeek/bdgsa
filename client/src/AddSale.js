@@ -150,9 +150,10 @@ class AddSale extends Component {
                     <thead>
                         <tr>
                             <th>action</th>
-                            <th>Title</th>
+                            
                             <th>Type</th>
-                            <th>Description</th>
+                            <th>Title</th>
+                            {/* <th>Description</th> */}
                             <th>Address</th>
                             <th>Date</th>
                             <th>Start Time</th>
