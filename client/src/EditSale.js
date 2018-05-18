@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-// import axios from "axios"
-import {editSale} from "./redux/authorizedUser"
+import axios from "axios"
+//import {editSale} from "./redux/authorizedUser"
 
 const editSalesAxios = axios.create();
 editSalesAxios.interceptors.request.use(config => {
@@ -10,8 +10,8 @@ editSalesAxios.interceptors.request.use(config => {
     return config
 })
 
-const EditSale = (id, newSale) => {
-    editSalesAxios.put(`/api/sale/${id}`, this.state.inputs).then(response => console.log(response.data))
+const EditedSale = (id, obj) => {
+    editSalesAxios.put(`/api/sale/${id}`, obj).then(window.location.assign("/addSale"))
 }
 
 class EditSale extends Component {
@@ -19,14 +19,14 @@ class EditSale extends Component {
         super(props);
         this.state = {
             inputs: {
-                address: props.address || "",
-                start_time: props.start_time || "",
-                end_time: props.end_time || "",
-                image_url: props.image_url || "",
-                description: props.description || "",
-                date: props.date || "",
-                type: props.type || "yardsale",
-                // sellerId: this.props.user._id
+                address:"",
+                start_time:"",
+                end_time:"",
+                image_url: "",
+                description: "",
+                date:"",
+                type: "",
+                sellerId: ""
 
             },
         }
@@ -48,13 +48,26 @@ class EditSale extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { saleId, editSale } = this.props
-        editSale(saleId, this.state.inputs)
+        EditedSale(this.state.inputs._id, this.state.inputs)
+    }
+    getSale = () => { const id = this.props.match.params.id;
+        axios.get(`/sales/${id}`).then(respose => {
+            this.setState({
+                ...this.state,
+                inputs:respose.data})
+            console.log("getsale called", respose.data);
+
+        })
+    }
+    componentDidMount() {
+        this.getSale()
     }
 
     render() {
+        console.log("state edit", this.state);
+        
 
-        const { type, address, start_time, end_time, date, image_url, description } = this.state.inputs;
+        const { type, address, start_time, end_time, date, image_url, description, title } = this.state.inputs;
         return (
 
             <div>
@@ -66,11 +79,12 @@ class EditSale extends Component {
                         <option value="estatesale">Estatesale</option>
                     </select>
                     
+                    <input onChange={this.handleChange} name="title" value={title} type="text" placeholder="Title" />
                     <input onChange={this.handleChange} name="address" value={address} type="text" placeholder="Address" />
                     <input onChange={this.handleChange} name="start_time" value={start_time} type="text" placeholder="Start Time" />
                     <input onChange={this.handleChange} name="end_time" value={end_time} type="text" placeholder="End Time" />
-                     <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" /> */}
-                     <textarea col="10" row="5" onChange={this.handleChange} name="description" value={description} type="text" placeholder="Description" /> */}
+                     <input onChange={this.handleChange} name="image_url" value={image_url} type="url" placeholder="Image URL" /> 
+                     <textarea col="10" row="5" onChange={this.handleChange} name="description" value={description} type="text" placeholder="Description" /> 
                     <input onChange={this.handleChange} name="date" value={date} type="date" />
                     <button>Save Changes</button>
                 </form>
@@ -79,5 +93,5 @@ class EditSale extends Component {
         )
     }
 }
-export default connect(null, { editSale })(EditSale);
+export default connect(null, {  })(EditSale);
 

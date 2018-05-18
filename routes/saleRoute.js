@@ -46,8 +46,10 @@ saleRoute.route("/:id")
             }))
     })
     .put((req, res)=>{
+        console.log(req.body);
+        
         SaleModel.findOneAndUpdate({ _id: req.params.id}, req.body, { new: true})
-            exec(((err, updateSale)=>{
+            .exec(((err, updateSale)=>{
                 if (err) {
                     res.status(400).send(err)
                 } else if (updateSale) {
