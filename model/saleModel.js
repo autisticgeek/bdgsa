@@ -6,7 +6,7 @@ const saleSchema = new Schema({
     address: { required: true, type: String },
     start_time: { required: true, type: String },
     end_time: { required: true, type: String },
-    date:{required:true, type: Date},
+    date:{required:true, type: String},
     description: { required: false, type: String },
     image_url: { required: false, type: String },
     lat:{required:false, type:Number},
